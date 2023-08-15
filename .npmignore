@@ -1,7 +1,6 @@
 # Files to exclude from the published npm package
 node_modules/
 npm-debug.log
-dist/
 *.log
 *.bak
 *.swp

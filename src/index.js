@@ -1,3 +1,5 @@
-import Payment from './Payment';
+export {default as PayPalPayment} from './PayPalPayment';
+export {default as StripePayment} from './StripePayment';
 
-export default Payment;
+// export default PayPalPayment;
+
