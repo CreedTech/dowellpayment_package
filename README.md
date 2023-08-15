@@ -1,6 +1,6 @@
 # Dowell-Payment Package
 
-## Version 1.0.1
+## Version 1.0.2
 
 ### Description
 
@@ -25,16 +25,26 @@ import React, { useState } from 'react';
 import Payment from 'dowellpayment';
 
 const PaymentComponent = () => {
-  const [paymentMethod, setPaymentMethod] = useState('stripe');
-  const [result, setResult] = useState('');
+   const [paymentMethod, setPaymentMethod] = useState('stripe');
+  const [paymentResult, setPaymentResult] = useState('');
+  const [approvalUrl, setApprovalUrl] = useState('');
+  const [paymentId, setPaymentId] = useState('');
+  const apiKey = 'YOUR_API_KEY'; // Replace with your actual API key
+  // Add other keys
 
-  const handlePayment = async () => {
-    const apiKey = 'your_api_key'; // Replace with your actual API key
-
+  const handleInitializePayment = async () => {
     // Initialize the Payment class
     const payment = new Payment();
 
     try {
+      // Specify additional keys for the selected payment method
+      const otherKeys =
+        paymentMethod === 'paypal'
+          ? {
+              paypal_client_id: 'YOUR_PAYPAL_CLIENT_ID',
+              paypal_secret_key: 'YOUR_PAYPAL_SECRET_KEY',
+            }
+          : { stripe_key: 'YOUR_STRIPE_KEY' };
       // Initialize the payment based on the selected payment method
       const initializationResult = await payment.initializePayment(
         apiKey,
@@ -42,30 +52,67 @@ const PaymentComponent = () => {
         500,
         'Product Name',
         'usd',
-        'https://www.google.com'
+        'https://www.google.com',
+        otherKeys
       );
+      const data = JSON.parse(initializationResult);
+      setApprovalUrl(data.approval_url);
+      setPaymentId(data.payment_id);
 
-      setResult(initializationResult);
+      // setPaymentResult(initializationResult);
     } catch (error) {
-      setResult('Error while initializing payment');
+      console.error('Error while initializing payment', error);
     }
   };
 
-   return (
+  const handleVerifyPayment = async () => {
+    try {
+      const payment = new Payment();
+
+      // Specify additional keys for the selected payment method
+      const otherKeys =
+        paymentMethod === 'paypal'
+          ? {
+              paypal_client_id: 'YOUR_PAYPAL_CLIENT_ID',
+              paypal_secret_key: 'YOUR_PAYPAL_SECRET_KEY',
+            }
+          : { stripe_key: 'YOUR_STRIPE_KEY' };
+
+      const response = await payment.verifyPayment(
+        apiKey,
+        paymentMethod,
+        paymentId,
+        otherKeys
+      );
+      setPaymentResult(response);
+    } catch (error) {
+      console.error('Error verifying payment:', error);
+    }
+  };
+
+     return (
     <div>
       <h1>Payment Component</h1>
       <label>
         Payment Method:
-        <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
+        <select
+          value={paymentMethod}
+          onChange={(e) => setPaymentMethod(e.target.value)}
+        >
           <option value="stripe">Stripe</option>
           <option value="paypal">PayPal</option>
         </select>
       </label>
-      <button onClick={handlePayment}>Initiate Payment</button>
-      <div>
-        <p>Payment Result:</p>
-        <pre>{result}</pre>
-      </div>
+      <button onClick={handleInitializePayment}>Initiate Payment</button>
+      <a href={approvalUrl}>{approvalUrl}</a>
+      <hr />
+      {approvalUrl && (
+        <div>
+          <button onClick={handleVerifyPayment}>Verify Payment</button>
+          <p>Payment Result:</p>
+          <pre>{paymentResult}</pre>
+        </div>
+      )}
     </div>
   );
 };
@@ -76,7 +123,7 @@ export default PaymentComponent;
 
 ### API
 
-initializePayment(apiKey, paymentMethod, price, product, currency, callbackUrl)
+initializePayment(apiKey, paymentMethod, price, product, currency, callbackUrl,otherKeys)
 Initiates a payment using the specified payment method (either 'stripe' or 'paypal').
 
 -`apiKey`: Your API key for accessing the payment service.
@@ -85,14 +132,16 @@ Initiates a payment using the specified payment method (either 'stripe' or 'payp
 -`product`: The name of the product.
 -`currency`: The currency code (e.g., 'usd').
 -`callbackUrl`: The URL to which the payment service will redirect after payment.
+-`otherKeys`: Dictionary of keys depending on your payment method.
 
--`verifyPayment(apiKey, paymentMethod, paymentId)`
+-`verifyPayment(apiKey, paymentMethod, paymentId,otherKeys)`
 
 Verifies a payment using the specified payment method (either 'stripe' or 'paypal').
 
 -`apiKey`: Your API key for accessing the payment service.
 -`paymentMethod`: The payment method used ('stripe' or 'paypal').
 -`paymentId`: The ID of the payment to verify.
+-`otherKeys`: Dictionary of keys depending on your payment method.
 
 ### License
 
