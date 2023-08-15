@@ -1,6 +1,6 @@
 # Dowell-Payment Package
 
-## Version 1.0.0
+## Version 1.0.1
 
 ### Description
 
@@ -11,7 +11,7 @@ Welcome to the Dowell Payment package!.A simple npm package for initiating and v
 Install the package using npm:
 
 ```bash
-npm install @dowelllabs/dowellpayment
+npm install dowellpayment
 ```
 
 ### Usage
@@ -22,7 +22,7 @@ Import the package and use the Payment class to initiate and verify payments usi
 
 ```javascript
 import React, { useState } from 'react';
-import Payment from 'my-payment-package';
+import Payment from 'dowellpayment';
 
 const PaymentComponent = () => {
   const [paymentMethod, setPaymentMethod] = useState('stripe');
