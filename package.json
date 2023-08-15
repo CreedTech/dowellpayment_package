@@ -1,0 +1,28 @@
+{
+  "name": "dowellpayment",
+  "version": "1.0.0",
+  "description": "Welcome to the Dowell Payment package!",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [
+    "payment",
+    "dowell",
+    "stripe",
+    "paypal",
+    "api"
+  ],
+  "author": "Dowell UX Living Lab",
+  "license": "Apache License 2.0",
+  "devDependencies": {
+    "@babel/cli": "^7.22.9",
+    "@babel/core": "^7.22.9",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-react": "^7.22.5",
+    "babel-loader": "^9.1.3",
+    "webpack-cli": "^5.1.4"
+  }
+}
