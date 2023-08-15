@@ -1,6 +1,6 @@
 # Dowell-Payment Package
 
-## Version 1.0.5
+## Version 1.0.6
 
 ### Description
 
@@ -22,7 +22,7 @@ Import the package and use the Payment class to initiate and verify payments usi
 
 ```javascript
 import React, { useState } from 'react';
-import { PayPalPayment } from 'dowellpayment';
+import PayPalPayment from 'dowellpayment';
 
 const Paypal = () => {
   const [paymentResult, setPaymentResult] = useState();
@@ -97,6 +97,9 @@ export default Paypal;
 ### Stripe Example
 
 ```javascript
+
+import React, { useState } from 'react';
+import StripePayment from 'dowellpayment';
 
 const Stripe = () => {
   const [paymentResult, setPaymentResult] = useState();

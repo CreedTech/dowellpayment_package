@@ -1,6 +1,6 @@
 {
   "name": "dowellpayment",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Welcome to the Dowell Payment package!",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
